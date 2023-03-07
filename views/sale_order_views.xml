@@ -7,9 +7,10 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//button[@name='action_quotation_send']" position="before">
+                <field name="add_payment" invisible="1"/>
                 <button name="%(account.action_account_invoice_payment)d" string="Add Payment"
                     type="action" class="btn-primary"
-                    attrs="{'invisible': [('invoice_status', '!=', 'to invoice')]}" context="{'default_sale_id': id}"/>
+                    attrs="{'invisible': [('add_payment', '=', False)]}" context="{'default_sale_id': id,' default_partner_id': partner_id}" groups="ach_payment_sale.payment_sale"/>
             </xpath>
             <xpath expr="//button[@name='action_view_invoice']" position="before">
               <button name="action_view_payments"

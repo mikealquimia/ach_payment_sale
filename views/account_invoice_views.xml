@@ -7,17 +7,17 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other_info']" position="after">
-                <page string="Ventas">
+                <page string="Ventas" invisible='1'>
                   <field name="sale_ids"/>
                 </page>
             </xpath>
             <xpath expr="//field[@name='date_invoice']" position="after">
-              <field name="add_payment_sale"/>
+              <field name="add_payment_sale" invisible='1'/>
             </xpath>
             <xpath expr="//button[@name='action_invoice_open']" position="before">
               <field name="add_payment_sale" invisible="1"/>
-              <button name="action_add_payment_sale" type="object" string="Agregar Antipicpos" attrs="{'invisible': [('add_payment_sale', '=', False),('state','=','opem')]}"
-                        help="Añadir los anticipos agregados en las ventas de esta factura."/>
+              <button name="action_add_payment_sale" type="object" string="Agregar Antipicpos" attrs="{'invisible': [('add_payment_sale', '=', False)]}"
+                        help="Añadir los anticipos agregados en las ventas de esta factura." class="oe_highlight" groups="ach_payment_sale.payment_sale"/>
             </xpath>
         </field>
     </record>
