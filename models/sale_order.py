@@ -6,7 +6,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     payment_count = fields.Integer(string='Payment Count', compute='_get_payments', readonly=True)
-    add_payment =fields.Boolean(string="Agregar Pagos", compute='_compute_add_payment')
+    add_payment =fields.Boolean(string="Add Payment", compute='_compute_add_payment')
 
     @api.one
     def _compute_add_payment(self):
