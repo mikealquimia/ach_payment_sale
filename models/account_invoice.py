@@ -6,7 +6,7 @@ from openerp.exceptions import UserError, ValidationError
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    sale_ids = fields.Many2many('sale.order',string='Ventas')
+    sale_ids = fields.Many2many('sale.order',string='Sales')
     add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
 
     def mapping_sale_id(self):
