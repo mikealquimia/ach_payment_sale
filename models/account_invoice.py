@@ -39,18 +39,11 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_add_payment_sale(self):
         for rec in self:
-            #change partner_id in paymens
+            #change partner_id in payments
             sale_ids = []
             for sale in rec.sale_ids:
                 sale_ids.append(sale.id)
             payment_ids = self.env['account.payment'].search([('sale_id','in',sale_ids),('state_sale_invoice','=','no_add')])
-            #for payment in payment_ids:
-            #    if payment.partner_id != rec.partner_id:
-            #        payment.cancel()
-            #        payment.action_draft()
-            #        payment.write({'partner_id':rec.partner_id.id})
-            #        payment.post()
-            #get lines credit
             lines = []
             for payment in payment_ids:
                 for payment_line in payment.move_line_ids:
@@ -59,7 +52,7 @@ class AccountInvoice(models.Model):
                             lines.append(payment_line)
                             rec.assign_outstanding_credit(payment_line.id)
                         else:
-                            raise UserError('El pago: %s ya esta conciliado' % (payment_line.account_id.name))
+                            raise UserError('The Payment: %s is reconciled' % (payment_line.account_id.name))
                 payment.write({'state_sale_invoice':'add'})
             
             

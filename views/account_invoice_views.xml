@@ -16,8 +16,8 @@
             </xpath>
             <xpath expr="//button[@name='action_invoice_open']" position="before">
               <field name="add_payment_sale" invisible="1"/>
-              <button name="action_add_payment_sale" type="object" string="Agregar Antipicpos" attrs="{'invisible': [('add_payment_sale', '=', False)]}"
-                        help="Añadir los anticipos agregados en las ventas de esta factura." class="oe_highlight" groups="ach_payment_sale.payment_sale"/>
+              <button name="action_add_payment_sale" type="object" string="Add Payment Advance" attrs="{'invisible': [('add_payment_sale', '=', False)]}"
+                        help="Add the added advances in the sales of this invoice." class="oe_highlight" groups="ach_payment_sale.payment_sale"/>
             </xpath>
         </field>
     </record>

@@ -2,23 +2,20 @@
 {
     'name': "Payment Sale",
 
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
-    'description': """
-        Long description of module's purpose
-    """,
-    'author': "My Company",
+    'summary': """ """,
+    'description': """ """,
+    'author': "ACH",
     'website': "http://www.yourcompany.com",
-    'category': 'Uncategorized',
+    'license': 'LGPL-3',
+    'category': 'Sales',
     'version': '0.1',
     'depends': ['base',
                 'account',
                 'sale',
-
+                'sale_management '
     ],
     'data': [
-        # 'security/ir.model.access.csv',
+        #'security/ir.model.access.csv',
         'security/payment_sale.xml',
         'views/sale_order_views.xml',
         'views/account_payment_views.xml',

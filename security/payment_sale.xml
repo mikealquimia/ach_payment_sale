@@ -2,7 +2,7 @@
 <odoo>
     <data>
         <record id="payment_sale" model="res.groups">
-            <field name="name">Anticios en Ventas</field>
+            <field name="name">Advance Payment in Sales</field>
             <field name="category_id" ref="base.module_category_hidden"></field>
         </record>
     </data>

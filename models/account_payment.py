@@ -7,8 +7,8 @@ from odoo.exceptions import UserError, ValidationError
 class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
-    sale_id = fields.Many2one('sale.order', string="Orden de Venta")
-    state_sale_invoice = fields.Selection([('no_add','Sin añadir'),('add','Añadido'),('cancel','Cancelado')], string="Estado de Anticipo", default='no_add')
+    sale_id = fields.Many2one('sale.order', string="Sale")
+    state_sale_invoice = fields.Selection([('no_add','No Add'),('add','Added'),('cancel','Cancel')], string="State Pay Advance", default='no_add')
 
     @api.onchange('sale_id')
     def _onchange_sale_id(self):
@@ -38,7 +38,7 @@ class AccountPayment(models.Model):
                         total_invoice += invoice.amount_total
             dif_amount = (total_sale-total_invoice+total_residual-total_payment)
             if vals['amount'] > dif_amount:
-                raise UserError(_("Solo puedes agregar un anticipo de %s a la venta") % (dif_amount))
+                raise UserError(_("ou can only add a down payment of %s to the sale") % (dif_amount))
         res = super(AccountPayment, self).create(vals)
         return res
     
@@ -53,7 +53,7 @@ class AccountPayment(models.Model):
         for rec in self:
             if rec.sale_id:
                 if rec.state != 'draft':
-                    raise UserError(_("Solo se pueden validar pagos en estado Borrador"))
+                    raise UserError(_("You can only validate payments in Draft status"))
                 if not rec.name:
                     if rec.payment_type == 'transfer':
                         sequence_code = 'account.payment.transfer'
