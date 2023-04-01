@@ -12,7 +12,7 @@ class SaleOrder(models.Model):
     def _compute_add_payment(self):
         for rec in self:
             add_payment = True
-            if rec.state in ['cancel']:
+            if rec.state in ['cancel','draft','sent']:
                 add_payment = False
             else:    
                 if rec.invoice_ids:
