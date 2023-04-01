@@ -38,7 +38,7 @@ class AccountPayment(models.Model):
                         total_invoice += invoice.amount_total
             dif_amount = (total_sale-total_invoice+total_residual-total_payment)
             if vals['amount'] > dif_amount:
-                raise UserError(_("ou can only add a down payment of %s to the sale") % (dif_amount))
+                raise UserError(_("You can only add a down payment of %s to the sale") % (dif_amount))
         res = super(AccountPayment, self).create(vals)
         return res
     

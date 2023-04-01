@@ -52,7 +52,7 @@ class AccountInvoice(models.Model):
                             lines.append(payment_line)
                             rec.assign_outstanding_credit(payment_line.id)
                         else:
-                            raise UserError('The Payment: %s is reconciled' % (payment_line.account_id.name))
+                            raise UserError(_('The Payment: %s is reconciled' % (payment_line.account_id.name)))
                 payment.write({'state_sale_invoice':'add'})
             
             

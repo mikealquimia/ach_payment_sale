@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
             <xpath expr="//page[@name='other_info']" position="after">
-                <page string="Ventas" invisible='1'>
+                <page string="Sales" invisible='1'>
                   <field name="sale_ids"/>
                 </page>
             </xpath>

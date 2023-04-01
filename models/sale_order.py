@@ -61,7 +61,7 @@ class SaleOrder(models.Model):
             "res_model": "account.payment",
             "views": [[False, "tree"], [False, "form"]],
             "domain": [['id', 'in', payments.ids]],
-            "name": "Ventas",
+            "name": "Sales",
         }
     
 class SaleOrderLine(models.Model):

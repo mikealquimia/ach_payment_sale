@@ -12,7 +12,7 @@
     'depends': ['base',
                 'account',
                 'sale',
-                'sale_management '
+                'sale_management'
     ],
     'data': [
         #'security/ir.model.access.csv',

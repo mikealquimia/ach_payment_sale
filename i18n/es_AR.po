@@ -1,0 +1,134 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* ach_payment_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-04-01 21:08+0000\n"
+"PO-Revision-Date: 2023-04-01 15:16-0600\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.2.2\n"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_invoice__add_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_order__add_payment
+msgid "Add Payment"
+msgstr "Agregar Anticipo"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.sale_payment_invoice_view_form
+msgid "Add Payment Advance"
+msgstr "Agregar Anticipo"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.sale_payment_invoice_view_form
+msgid "Add the added advances in the sales of this invoice."
+msgstr "Agregar anticipos de la orden de venta para esta factura."
+
+#. module: ach_payment_sale
+#: selection:account.payment,state_sale_invoice:0
+msgid "Added"
+msgstr "Agregado"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.sale_payment_sale_view_form
+msgid "Advance Payment"
+msgstr "Anticipo"
+
+#. module: ach_payment_sale
+#: model:res.groups,name:ach_payment_sale.payment_sale
+msgid "Advance Payment in Sales"
+msgstr "Anticipo en Ventas"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.sale_payment_sale_view_form
+msgid "Advance Payments"
+msgstr "Anticipos"
+
+#. module: ach_payment_sale
+#: selection:account.payment,state_sale_invoice:0
+msgid "Cancel"
+msgstr "Cancelado"
+
+#. module: ach_payment_sale
+#: model:ir.model,name:ach_payment_sale.model_account_abstract_payment
+msgid "Contains the logic shared between models which allows to register payments"
+msgstr "Contiene la lógica compartida entre los modelos que permiten el registro de pagos"
+
+#. module: ach_payment_sale
+#: model:ir.model,name:ach_payment_sale.model_account_invoice
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: ach_payment_sale
+#: selection:account.payment,state_sale_invoice:0
+msgid "No Add"
+msgstr "No agregado"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_order__payment_count
+msgid "Payment Count"
+msgstr "Cantidad de Pagos"
+
+#. module: ach_payment_sale
+#: model:ir.model,name:ach_payment_sale.model_account_payment
+msgid "Payments"
+msgstr "Pagos"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_payment__sale_id
+msgid "Sale"
+msgstr "Venta"
+
+#. module: ach_payment_sale
+#: model:ir.model,name:ach_payment_sale.model_sale_order
+msgid "Sale Order"
+msgstr "Pedido de venta"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_invoice__sale_ids
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.sale_payment_invoice_view_form
+msgid "Sales"
+msgstr "Ventas"
+
+#. module: ach_payment_sale
+#: model:ir.model,name:ach_payment_sale.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Línea de pedido de venta"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_payment__state_sale_invoice
+msgid "State Pay Advance"
+msgstr "Estado de Anticipo"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/account_invoice.py:55
+#, python-format
+msgid "The Payment: %s is reconciled"
+msgstr "El pago: %s ha sido conciliado"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/account_payment.py:41
+#, python-format
+msgid "You can only add a down payment of %s to the sale"
+msgstr "Solamente puedes agregar un anticipo de %s para esta venta"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/account_payment.py:56
+#, python-format
+msgid "You can only validate payments in Draft status"
+msgstr "Solamente puedes validar un pago en estado Borrador"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/account_payment.py:73
+#, python-format
+msgid "You have to define a sequence for %s in your company."
+msgstr "Debes definir la secuencia de %s en tu compañía."
