@@ -7,7 +7,7 @@ class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
     sale_ids = fields.Many2many('sale.order',string='Ventas')
-    add_payment_sale = fields.Boolean(string="Agregar Anticipos", compute="_compute_add_payment_sale")
+    add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
 
     def mapping_sale_id(self):
         invoices = self.env['account.invoice'].search([('type','in',['out_invoice','out_refund']),('sale_ids','=',False)])
