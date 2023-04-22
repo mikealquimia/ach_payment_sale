@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import UserError, ValidationError
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -11,46 +12,50 @@ class SaleOrder(models.Model):
     @api.one
     def _compute_add_payment(self):
         for rec in self:
-            add_payment = True
-            if rec.state in ['cancel','draft','sent']:
-                add_payment = False
-            else:    
-                if rec.invoice_ids:
-                    total_sale = rec.amount_total
-                    total_payment = 0
-                    total_residual_invoice = 0
-                    total_invoiced = 0
-                    payments = self.env['account.payment'].search([('sale_id','=',rec.id),('state_sale_invoice','=','no_add')])
-                    for payment in payments:
-                        total_payment += payment.amount
-                    for invoice in rec.invoice_ids:
-                        if invoice.state == 'open':
-                            total_residual_invoice += invoice.residual
-                            total_invoiced += invoice.amount_total
-                        if invoice.state == 'paid':
-                            total_invoiced += invoice.amount_total
-                    diff_totals = (total_sale-total_invoiced+total_residual_invoice-total_payment)
-                    if diff_totals <= 0:
-                        add_payment = False
+            if rec.company_id.status_for_payment:
+                print('ssss',rec.company_id.status_for_payment)
+                add_payment = True
+                if rec.state != rec.company_id.status_for_payment:
+                    add_payment = False
                 else:
-                    total_sale = rec.amount_total
-                    total_payment = 0
-                    payments = self.env['account.payment'].search([('sale_id','=',rec.id),('state_sale_invoice','=','no_add')])
-                    for payment in payments:
-                        total_payment += payment.amount
-                    if (total_sale-total_payment) <= 0:
-                        add_payment == False
-            if add_payment == True:
-                self.add_payment = True
-            if add_payment == False:
-                self.add_payment = False        
+                    if rec.invoice_ids:
+                        total_sale = rec.amount_total
+                        total_payment = 0
+                        total_residual_invoice = 0
+                        total_invoiced = 0
+                        payments = self.env['account.payment'].search([('sale_id','=',rec.id),('state_sale_invoice','=','no_add')])
+                        for payment in payments:
+                            total_payment += payment.amount
+                        for invoice in rec.invoice_ids:
+                            if invoice.state == 'open':
+                                total_residual_invoice += invoice.residual
+                                total_invoiced += invoice.amount_total
+                            if invoice.state == 'paid':
+                                total_invoiced += invoice.amount_total
+                        diff_totals = (total_sale-total_invoiced+total_residual_invoice-total_payment)
+                        if diff_totals <= 0:
+                            add_payment = False
+                    else:
+                        total_sale = rec.amount_total
+                        total_payment = 0
+                        payments = self.env['account.payment'].search([('sale_id','=',rec.id),('state_sale_invoice','=','no_add')])
+                        for payment in payments:
+                            total_payment += payment.amount
+                        if (total_sale-total_payment) <= 0:
+                            add_payment == False
+                if add_payment == True:
+                    self.add_payment = True
+                if add_payment == False:
+                    self.add_payment = False
+            else:
+                raise ValidationError(_("Set in configuration of your company the state in sale for add payment"))
 
     def _get_payments(self):
         for rec in self:
             count_payment = self.env['account.payment'].search([('sale_id','=',rec.id)])
             rec.payment_count = len(count_payment)
         return
-    
+
     @api.multi
     def action_view_payments(self):
         action = self.env.ref('account.view_account_payment_tree').read()[0]
@@ -63,7 +68,7 @@ class SaleOrder(models.Model):
             "domain": [['id', 'in', payments.ids]],
             "name": "Sales",
         }
-    
+
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
@@ -77,5 +82,3 @@ class SaleOrderLine(models.Model):
         if added_sale == True:
             invoice.write({'sale_ids': [(4, self.order_id.id)]})
         return res
-        
-    

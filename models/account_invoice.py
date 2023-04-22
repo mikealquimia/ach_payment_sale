@@ -10,18 +10,28 @@ class AccountInvoice(models.Model):
     add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
 
     def mapping_sale_id(self):
-        invoices = self.env['account.invoice'].search([('type','in',['out_invoice','out_refund']),('sale_ids','=',False)])
-        for invoice in invoices:
-            sale_ids = []
-            for line in invoice.invoice_line_ids:
-                for sale_line in line.sale_line_ids:
-                    if sale_line.order_id not in sale_ids:
-                        sale_ids.append(sale_line.order_id)
+        invoices = "SELECT id FROM account_invoice WHERE type in ['out_invoice','out_refund'] AND sale_ids is null"
+        self.env.cr.execute(invoices)
+        invoice_ids = self.env.cr.fetchall()
+        for invoice in invoice_ids:
+            invoices = "SELECT id FROM account_invoice_line WHERE invoice_id = {invoice}".format(invoice=invoice['id'])
+            self.env.cr.execute(invoices)
+            sale_ids = self.env.cr.fetchall()
             if len(sale_ids)>0:
                 for sale in sale_ids:
-                    invoice.write({'sale_ids': [(4, sale.id)]})
+                    invoice.write({'sale_ids': [(4, sale['id'])]})
+        #invoices = self.env['account.invoice'].search([('type','in',['out_invoice','out_refund']),('sale_ids','=',False)])
+        #for invoice in invoices:
+        #    sale_ids = []
+        #    for line in invoice.invoice_line_ids:
+        #        for sale_line in line.sale_line_ids:
+        #            if sale_line.order_id not in sale_ids:
+        #                sale_ids.append(sale_line.order_id)
+        #    if len(sale_ids)>0:
+        #        for sale in sale_ids:
+        #            invoice.write({'sale_ids': [(4, sale.id)]})
         return
-    
+
     @api.one
     def _compute_add_payment_sale(self):
         for rec in self:
@@ -39,7 +49,6 @@ class AccountInvoice(models.Model):
     @api.multi
     def action_add_payment_sale(self):
         for rec in self:
-            #change partner_id in payments
             sale_ids = []
             for sale in rec.sale_ids:
                 sale_ids.append(sale.id)
@@ -54,8 +63,3 @@ class AccountInvoice(models.Model):
                         else:
                             raise UserError(_('The Payment: %s is reconciled' % (payment_line.account_id.name)))
                 payment.write({'state_sale_invoice':'add'})
-            
-            
-
-    
-    

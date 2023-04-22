@@ -13,13 +13,19 @@ class AccountPayment(models.Model):
     @api.onchange('sale_id')
     def _onchange_sale_id(self):
         for rec in self:
-            rec.communication = rec.sale_id.name
-            rec.partner_id = rec.sale_id.partner_id.id
+            if rec.sale_id:
+                rec.communication = rec.sale_id.name
+                rec.partner_id = rec.sale_id.partner_id.id
+                rec.invoice_ids = False
+                rec.payment_type = 'inbound'
+                rec.partner_type = 'customer'
         return
-    
+
     @api.model
     def create(self, vals):
         if vals['sale_id']:
+            vals['invoice_ids'] = False
+            vals['partner_type'] = 'customer'
             sale_id = self.env['sale.order'].search([('id','=',vals['sale_id'])])
             total_sale = sale_id.amount_total
             total_payment = 0
@@ -39,19 +45,21 @@ class AccountPayment(models.Model):
             dif_amount = (total_sale-total_invoice+total_residual-total_payment)
             if vals['amount'] > dif_amount:
                 raise UserError(_("You can only add a down payment of %s to the sale") % (dif_amount))
-        res = super(AccountPayment, self).create(vals)
-        return res
-    
+            else:
+                return super(AccountPayment, self).create(vals)
+        return super(AccountPayment, self).create(vals)
+
     @api.multi
     def cancel(self):
         for rec in self:
             rec.write({'state_sale_invoice':'cancel'})
         return super(AccountPayment, self).cancel()
-    
+
     @api.multi
     def post(self):
         for rec in self:
             if rec.sale_id:
+                rec.invoice_ids = False
                 if rec.state != 'draft':
                     raise UserError(_("You can only validate payments in Draft status"))
                 if not rec.name:
@@ -76,8 +84,18 @@ class AccountPayment(models.Model):
                 persist_move_name = move.name
                 rec.write({'state': 'posted', 'move_name': persist_move_name})
             else:
-                res = super(AccountPayment, self).post()
-            return True
+                return super(AccountPayment, self).post()
+
+    def action_validate_invoice_payment(self):
+        """ Posts a payment used to pay an invoice. This function only posts the
+        payment by default but can be overridden to apply specific post or pre-processing.
+        It is called by the "validate" button of the popup window
+        triggered on invoice form by the "Register Payment" button.
+        """
+        if any(len(record.invoice_ids) > 1 for record in self):
+            # For multiple invoices, there is account.register.payments wizard
+            raise UserError(_("This method should only be called to process a single invoice's payment."))
+        return self.post()
 
 class AccountAbstractPayment(models.AbstractModel):
     _inherit = 'account.abstract.payment'
@@ -86,5 +104,4 @@ class AccountAbstractPayment(models.AbstractModel):
     def _compute_payment_difference(self):
         if not self.sale_id:
             rec = super(AccountAbstractPayment, self)._compute_payment_difference()
-            return rec        
-    
+            return rec
