@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="ach_payment_settings_view_form" model="ir.ui.view">
-        <field name="name">ACH Sales Payments</field>
+        <field name="name">Advance Payments in Config Settings</field>
         <field name="model">res.config.settings</field>
         <field name="inherit_id" ref="sale.res_config_settings_view_form" />
         <field name="arch" type="xml">

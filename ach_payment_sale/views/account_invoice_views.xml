@@ -2,7 +2,7 @@
   <data>
 
     <record id="sale_payment_invoice_view_form" model="ir.ui.view">
-        <field name="name">Payment Sale</field>
+        <field name="name">Advance Payment in Invoice Form</field>
         <field name="model">account.invoice</field>
         <field name="inherit_id" ref="account.invoice_form"/>
         <field name="arch" type="xml">
