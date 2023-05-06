@@ -10,7 +10,7 @@
             - Add the advances to the invoice(s) of the sale regardless of whether they are not from the same contact as the invoice.
             - Limit the amount of advances based on the total sale.
         """,
-    'author': "ACH",
+    'author': "Gt Alchemy Development",
     'license': 'LGPL-3',
     'category': 'Sales',
     'version': '0.1',
