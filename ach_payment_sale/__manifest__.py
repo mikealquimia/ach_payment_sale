@@ -30,4 +30,5 @@
         'views/account_invoice_views.xml',
         'data/ir_cron.xml',
     ],
+    'images': ['static/description/banner.png'],
 }
