@@ -10,27 +10,18 @@ class AccountInvoice(models.Model):
     add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
 
     def mapping_sale_id(self):
-        invoices = "SELECT id FROM account_invoice WHERE type in ['out_invoice','out_refund'] AND sale_ids is null"
-        self.env.cr.execute(invoices)
-        invoice_ids = self.env.cr.fetchall()
-        for invoice in invoice_ids:
-            invoices = "SELECT id FROM account_invoice_line WHERE invoice_id = {invoice}".format(invoice=invoice['id'])
-            self.env.cr.execute(invoices)
-            sale_ids = self.env.cr.fetchall()
-            if len(sale_ids)>0:
-                for sale in sale_ids:
-                    invoice.write({'sale_ids': [(4, sale['id'])]})
-        #invoices = self.env['account.invoice'].search([('type','in',['out_invoice','out_refund']),('sale_ids','=',False)])
-        #for invoice in invoices:
-        #    sale_ids = []
-        #    for line in invoice.invoice_line_ids:
-        #        for sale_line in line.sale_line_ids:
-        #            if sale_line.order_id not in sale_ids:
-        #                sale_ids.append(sale_line.order_id)
-        #    if len(sale_ids)>0:
-        #        for sale in sale_ids:
-        #            invoice.write({'sale_ids': [(4, sale.id)]})
-        return
+        sql = "select ail.invoice_id as invoice, sol.id as sale "
+        sql += "from account_invoice_line ail "
+        sql += "inner join sale_order_line_invoice_rel solir "
+        sql += "on solir.invoice_line_id = ail.id "
+        sql += "inner join sale_order_line sol "
+        sql += "on sol.id = solir.order_line_id "
+        self.env.cr.execute(sql)
+        aisor = self.env.cr.dictfetchall()
+        for rel in aisor:
+            sql = "INSERT INTO account_invoice_sale_order_rel(account_invoice_id,sale_order_id) "
+            sql += "VALUES ({invoice},{sale})".format(invoice=rel['invoice'],sale=rel['sale'])
+            self.env.cr.execute(sql)
 
     @api.one
     def _compute_add_payment_sale(self):

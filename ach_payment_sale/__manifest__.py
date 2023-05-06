@@ -14,6 +14,8 @@
     'license': 'LGPL-3',
     'category': 'Sales',
     'version': '0.1',
+    'price': 10.00,
+    'currency': 'USD',
     'depends': ['base',
                 'account',
                 'sale',
@@ -26,5 +28,6 @@
         'views/sale_order_views.xml',
         'views/account_payment_views.xml',
         'views/account_invoice_views.xml',
+        'data/ir_cron.xml',
     ],
 }

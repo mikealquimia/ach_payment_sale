@@ -87,11 +87,6 @@ class AccountPayment(models.Model):
                 return super(AccountPayment, self).post()
 
     def action_validate_invoice_payment(self):
-        """ Posts a payment used to pay an invoice. This function only posts the
-        payment by default but can be overridden to apply specific post or pre-processing.
-        It is called by the "validate" button of the popup window
-        triggered on invoice form by the "Register Payment" button.
-        """
         if any(len(record.invoice_ids) > 1 for record in self):
             # For multiple invoices, there is account.register.payments wizard
             raise UserError(_("This method should only be called to process a single invoice's payment."))
