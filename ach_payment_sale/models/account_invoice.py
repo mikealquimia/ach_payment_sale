@@ -10,7 +10,7 @@ class AccountInvoice(models.Model):
     add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
 
     def mapping_sale_id(self):
-        sql = "select ail.invoice_id as invoice, sol.id as sale "
+        sql = "select ail.invoice_id as invoice, sol.order_id as sale "
         sql += "from account_invoice_line ail "
         sql += "inner join sale_order_line_invoice_rel solir "
         sql += "on solir.invoice_line_id = ail.id "
@@ -19,10 +19,10 @@ class AccountInvoice(models.Model):
         self.env.cr.execute(sql)
         aisor = self.env.cr.dictfetchall()
         for rel in aisor:
-            sql = "INSERT INTO account_invoice_sale_order_rel(account_invoice_id,sale_order_id) "
-            sql += "VALUES ({invoice},{sale})".format(invoice=rel['invoice'],sale=rel['sale'])
-            self.env.cr.execute(sql)
-
+            sql = "INSERT INTO account_invoice_sale_order_rel (account_invoice_id, sale_order_id) "
+            sql += "VALUES (%s, %s) ON CONFLICT DO NOTHING;"
+            params = (int(rel['invoice']),int(rel['sale']))
+            self.env.cr.execute(sql, params)
     @api.one
     def _compute_add_payment_sale(self):
         for rec in self:
