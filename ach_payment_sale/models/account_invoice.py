@@ -10,16 +10,17 @@ class AccountMove(models.Model):
     add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
 
     def mapping_sale_id(self):
-        sql = "select ail.invoice_id as invoice, sol.order_id as sale "
-        sql += "from account_invoice_line ail "
-        sql += "inner join sale_order_line_invoice_rel solir "
-        sql += "on solir.invoice_line_id = ail.id "
-        sql += "inner join sale_order_line sol "
-        sql += "on sol.id = solir.order_line_id "
+        sql = """
+select aml.move_id as invoice, sol.order_id as sale 
+from account_move_line aml 
+inner join sale_order_line_invoice_rel solir 
+on solir.invoice_line_id = aml.id 
+inner join sale_order_line sol 
+on sol.id = solir.order_line_id """
         self.env.cr.execute(sql)
         aisor = self.env.cr.dictfetchall()
         for rel in aisor:
-            sql = "INSERT INTO account_invoice_sale_order_rel (account_invoice_id, sale_order_id) "
+            sql = "INSERT INTO account_move_sale_order_rel (account_move_id, sale_order_id) "
             sql += "VALUES (%s, %s) ON CONFLICT DO NOTHING;"
             params = (int(rel['invoice']),int(rel['sale']))
             self.env.cr.execute(sql, params)
