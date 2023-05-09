@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Sales Advances",
+    'name': "Sales Advances, Payment Sale",
     'summary': """ This module helps to add sales advances without the need to create an invoice""",
     'description': """
         With this module we can:
