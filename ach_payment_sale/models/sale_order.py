@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 
 class SaleOrder(models.Model):
@@ -9,11 +9,9 @@ class SaleOrder(models.Model):
     payment_count = fields.Integer(string='Payment Count', compute='_get_payments', readonly=True)
     add_payment =fields.Boolean(string="Add Payment", compute='_compute_add_payment')
 
-    @api.one
     def _compute_add_payment(self):
         for rec in self:
             if rec.company_id.status_for_payment:
-                print('ssss',rec.company_id.status_for_payment)
                 add_payment = True
                 if rec.state != rec.company_id.status_for_payment:
                     add_payment = False
@@ -27,10 +25,8 @@ class SaleOrder(models.Model):
                         for payment in payments:
                             total_payment += payment.amount
                         for invoice in rec.invoice_ids:
-                            if invoice.state == 'open':
-                                total_residual_invoice += invoice.residual
-                                total_invoiced += invoice.amount_total
-                            if invoice.state == 'paid':
+                            if invoice.state == 'posted':
+                                total_residual_invoice += invoice.amount_residual
                                 total_invoiced += invoice.amount_total
                         diff_totals = (total_sale-total_invoiced+total_residual_invoice-total_payment)
                         if diff_totals <= 0:
@@ -56,7 +52,6 @@ class SaleOrder(models.Model):
             rec.payment_count = len(count_payment)
         return
 
-    @api.multi
     def action_view_payments(self):
         action = self.env.ref('account.view_account_payment_tree').read()[0]
         payments = self.env['account.payment'].search([('sale_id','=',self.id)])
@@ -69,16 +64,27 @@ class SaleOrder(models.Model):
             "name": "Sales",
         }
 
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
-
-    def invoice_line_create_vals(self, invoice_id, qty):
-        res = super(SaleOrderLine, self).invoice_line_create_vals(invoice_id, qty)
-        invoice = self.env['account.invoice'].search([('id','=',res[0]['invoice_id'])])
-        added_sale = True
-        for sale in invoice.sale_ids:
-            if sale == self.order_id:
-                added_sale = False
-        if added_sale == True:
-            invoice.write({'sale_ids': [(4, self.order_id.id)]})
+    def _create_invoices(self, grouped=False, final=False, date=None):
+        res = super(SaleOrder, self)._create_invoices(grouped,final,date)
+        for move in res:
+            for rec in self:
+                added_sale = True
+                for sale in move.sale_ids:
+                    if sale == rec.order_id:
+                        added_sale = False
+                if added_sale == True:
+                    move.write({'sale_ids': [(4, rec.id)]})
         return res
+
+    def action_register_payment(self):
+        return {
+            'name': _('Register Payment'),
+            'res_model': 'sale.payment.register',
+            'view_mode': 'form',
+            'context': {
+                'active_model': 'sale.order',
+                'active_ids': self.id,
+            },
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+        }

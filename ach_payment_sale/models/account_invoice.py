@@ -3,8 +3,8 @@
 from odoo import models, fields, api, _
 from openerp.exceptions import UserError, ValidationError
 
-class AccountInvoice(models.Model):
-    _inherit = 'account.invoice'
+class AccountMove(models.Model):
+    _inherit = 'account.move'
 
     sale_ids = fields.Many2many('sale.order',string='Sales')
     add_payment_sale = fields.Boolean(string="Add Payment", compute="_compute_add_payment_sale")
@@ -23,10 +23,10 @@ class AccountInvoice(models.Model):
             sql += "VALUES (%s, %s) ON CONFLICT DO NOTHING;"
             params = (int(rel['invoice']),int(rel['sale']))
             self.env.cr.execute(sql, params)
-    @api.one
+
     def _compute_add_payment_sale(self):
         for rec in self:
-            if rec.state == 'open':
+            if rec.state == 'posted':
                 sale_ids = []
                 for sale in rec.sale_ids:
                     sale_ids.append(sale.id)
@@ -37,7 +37,7 @@ class AccountInvoice(models.Model):
                     self.add_payment_sale = False
             else:
                 self.add_payment_sale = False
-    @api.multi
+
     def action_add_payment_sale(self):
         for rec in self:
             sale_ids = []
@@ -46,11 +46,11 @@ class AccountInvoice(models.Model):
             payment_ids = self.env['account.payment'].search([('sale_id','in',sale_ids),('state_sale_invoice','=','no_add')])
             lines = []
             for payment in payment_ids:
-                for payment_line in payment.move_line_ids:
+                for payment_line in payment.move_id.line_ids:
                     if payment_line.account_id.reconcile:
                         if payment_line.reconciled == False:
                             lines.append(payment_line)
-                            rec.assign_outstanding_credit(payment_line.id)
+                            rec.js_assign_outstanding_line(payment_line.id)
                         else:
                             raise UserError(_('The Payment: %s is reconciled' % (payment_line.account_id.name)))
                 payment.write({'state_sale_invoice':'add'})

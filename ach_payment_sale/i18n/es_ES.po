@@ -4,21 +4,23 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 15.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-01 21:08+0000\n"
-"PO-Revision-Date: 2023-04-01 15:16-0600\n"
-"Last-Translator: <>\n"
+"POT-Creation-Date: 2023-05-09 05:05+0000\n"
+"PO-Revision-Date: 2023-05-08 23:10-0600\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.0.1\n"
 
 #. module: ach_payment_sale
-#: model:ir.model.fields,field_description:ach_payment_sale.field_account_invoice__add_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_bank_statement_line__add_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_move__add_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_payment__add_payment_sale
 #: model:ir.model.fields,field_description:ach_payment_sale.field_sale_order__add_payment
 msgid "Add Payment"
 msgstr "Agregar Anticipo"
@@ -34,7 +36,8 @@ msgid "Add the added advances in the sales of this invoice."
 msgstr "Agregar anticipos de la orden de venta para esta factura."
 
 #. module: ach_payment_sale
-#: selection:account.payment,state_sale_invoice:0
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__account_payment__state_sale_invoice__add
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__state_sale_invoice__add
 msgid "Added"
 msgstr "Agregado"
 
@@ -54,24 +57,136 @@ msgid "Advance Payments"
 msgstr "Anticipos"
 
 #. module: ach_payment_sale
-#: selection:account.payment,state_sale_invoice:0
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__amount
+msgid "Amount"
+msgstr "Cantidad"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__account_payment__state_sale_invoice__cancel
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__res_company__status_for_payment__cancel
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__state_sale_invoice__cancel
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.view_sale_payment_register_form
 msgid "Cancel"
 msgstr "Cancelado"
 
 #. module: ach_payment_sale
-#: model:ir.model,name:ach_payment_sale.model_account_abstract_payment
-msgid "Contains the logic shared between models which allows to register payments"
-msgstr "Contiene la lógica compartida entre los modelos que permiten el registro de pagos"
+#: model:ir.model,name:ach_payment_sale.model_res_company
+msgid "Companies"
+msgstr "Compañías"
 
 #. module: ach_payment_sale
-#: model:ir.model,name:ach_payment_sale.model_account_invoice
-msgid "Invoice"
-msgstr "Factura"
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__company_id
+msgid "Company"
+msgstr "Compañía"
 
 #. module: ach_payment_sale
-#: selection:account.payment,state_sale_invoice:0
+#: model:ir.model,name:ach_payment_sale.model_res_config_settings
+msgid "Config Settings"
+msgstr "Opciones de configuración"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.view_sale_payment_register_form
+msgid "Create Payment"
+msgstr "Crear Pago"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__create_uid
+msgid "Created by"
+msgstr "Creado por"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__create_date
+msgid "Created on"
+msgstr "Creado en"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__currency_id
+msgid "Currency"
+msgstr "Moneda"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__partner_id
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__partner_type__customer
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__display_name
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__res_company__status_for_payment__done
+msgid "Done"
+msgstr "Confirmado"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__res_company__status_for_payment__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.ach_payment_settings_view_form
+msgid "Establish in which sales states advance payments can be adders"
+msgstr "Establecer en qué estados de venta los anticipos pueden ser creados"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__id
+msgid "ID"
+msgstr "Id"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__journal_id
+msgid "Journal"
+msgstr "Diario"
+
+#. module: ach_payment_sale
+#: model:ir.model,name:ach_payment_sale.model_account_move
+msgid "Journal Entry"
+msgstr "Asiento contable"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register____last_update
+msgid "Last Modified on"
+msgstr "Ultima modificación en"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__write_uid
+msgid "Last Updated by"
+msgstr "Ultima actualización por"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__write_date
+msgid "Last Updated on"
+msgstr "Ultima actualización en"
+
+#. module: ach_payment_sale
+#: model:ir.actions.server,name:ach_payment_sale.ach_invoice_sales_ir_actions_server
+#: model:ir.cron,cron_name:ach_payment_sale.ach_invoice_sales
+#: model:ir.cron,name:ach_payment_sale.ach_invoice_sales
+msgid "Mapping Sale Invoice"
+msgstr "Mapear Ventas en Facturas"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__communication
+msgid "Memo"
+msgstr "Memo"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__name
+msgid "Name"
+msgstr "Nombre"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__account_payment__state_sale_invoice__no_add
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__state_sale_invoice__no_add
 msgid "No Add"
 msgstr "No agregado"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__partner_type
+msgid "Partner Type"
+msgstr "Tipo de Cliente"
 
 #. module: ach_payment_sale
 #: model:ir.model.fields,field_description:ach_payment_sale.field_sale_order__payment_count
@@ -79,56 +194,123 @@ msgid "Payment Count"
 msgstr "Cantidad de Pagos"
 
 #. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__payment_date
+msgid "Payment Date"
+msgstr "Fecha de Pago"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__payment_type
+msgid "Payment Type"
+msgstr "Tipo de Pago"
+
+#. module: ach_payment_sale
 #: model:ir.model,name:ach_payment_sale.model_account_payment
 msgid "Payments"
 msgstr "Pagos"
 
 #. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__payment_type__inbound
+msgid "Receive Money"
+msgstr "Dinero Recibido"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/sale_order.py:0
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.view_sale_payment_register_form
+#, python-format
+msgid "Register Payment"
+msgstr "Registro de Pago"
+
+#. module: ach_payment_sale
 #: model:ir.model.fields,field_description:ach_payment_sale.field_account_payment__sale_id
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__sale_id
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__res_company__status_for_payment__sale
 msgid "Sale"
 msgstr "Venta"
 
 #. module: ach_payment_sale
-#: model:ir.model,name:ach_payment_sale.model_sale_order
-msgid "Sale Order"
-msgstr "Pedido de venta"
+#: model:ir.model,name:ach_payment_sale.model_sale_payment_register
+msgid "Sale Payment Register"
+msgstr "Registro de Anticipo"
 
 #. module: ach_payment_sale
-#: model:ir.model.fields,field_description:ach_payment_sale.field_account_invoice__sale_ids
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_bank_statement_line__sale_ids
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_move__sale_ids
+#: model:ir.model.fields,field_description:ach_payment_sale.field_account_payment__sale_ids
 #: model_terms:ir.ui.view,arch_db:ach_payment_sale.sale_payment_invoice_view_form
 msgid "Sales"
 msgstr "Ventas"
 
 #. module: ach_payment_sale
-#: model:ir.model,name:ach_payment_sale.model_sale_order_line
-msgid "Sales Order Line"
-msgstr "Línea de pedido de venta"
+#: model:ir.model,name:ach_payment_sale.model_sale_order
+msgid "Sales Order"
+msgstr "Pedido de venta"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.ach_payment_settings_view_form
+msgid "Sales Payments"
+msgstr "Anticipos en Ventas"
+
+#. module: ach_payment_sale
+#: model_terms:ir.ui.view,arch_db:ach_payment_sale.ach_payment_settings_view_form
+msgid "Sales States"
+msgstr "Estado de Ventas"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__payment_type__outbound
+msgid "Send Money"
+msgstr "Enviar Dinero"
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__res_company__status_for_payment__sent
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/sale_order.py:0
+#, python-format
+msgid "Set in configuration of your company the state in sale for add payment"
+msgstr ""
+"Establece en la configuración de tu empresa el estado en venta para agregar "
+"pago"
 
 #. module: ach_payment_sale
 #: model:ir.model.fields,field_description:ach_payment_sale.field_account_payment__state_sale_invoice
+#: model:ir.model.fields,field_description:ach_payment_sale.field_sale_payment_register__state_sale_invoice
 msgid "State Pay Advance"
 msgstr "Estado de Anticipo"
 
 #. module: ach_payment_sale
-#: code:addons/ach_payment_sale/models/account_invoice.py:55
+#: code:addons/ach_payment_sale/models/account_invoice.py:0
 #, python-format
 msgid "The Payment: %s is reconciled"
 msgstr "El pago: %s ha sido conciliado"
 
 #. module: ach_payment_sale
-#: code:addons/ach_payment_sale/models/account_payment.py:41
+#: model:ir.model.fields,help:ach_payment_sale.field_sale_payment_register__currency_id
+msgid "The payment's currency."
+msgstr "La moneda de pagos."
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/account_payment.py:0
+#, python-format
+msgid ""
+"This method should only be called to process a single invoice's payment."
+msgstr ""
+"Este método solo debe llamarse para procesar el pago de una sola factura."
+
+#. module: ach_payment_sale
+#: model:ir.model.fields.selection,name:ach_payment_sale.selection__sale_payment_register__partner_type__supplier
+msgid "Vendor"
+msgstr "Proveedor"
+
+#. module: ach_payment_sale
+#: code:addons/ach_payment_sale/models/account_payment.py:0
 #, python-format
 msgid "You can only add a down payment of %s to the sale"
 msgstr "Solamente puedes agregar un anticipo de %s para esta venta"
 
 #. module: ach_payment_sale
-#: code:addons/ach_payment_sale/models/account_payment.py:56
-#, python-format
-msgid "You can only validate payments in Draft status"
-msgstr "Solamente puedes validar un pago en estado Borrador"
-
-#. module: ach_payment_sale
-#: code:addons/ach_payment_sale/models/account_payment.py:73
-#, python-format
-msgid "You have to define a sequence for %s in your company."
-msgstr "Debes definir la secuencia de %s en tu compañía."
+#: model:ir.model.fields,field_description:ach_payment_sale.field_res_company__status_for_payment
+#: model:ir.model.fields,field_description:ach_payment_sale.field_res_config_settings__status_for_payment
+msgid "sale status for payment"
+msgstr "estado de venta para pago"
