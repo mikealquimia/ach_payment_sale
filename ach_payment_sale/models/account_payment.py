@@ -23,7 +23,7 @@ class AccountPayment(models.Model):
     @api.model_create_multi
     def create(self, vals):
         for val in vals:
-            if val['sale_id']:
+            if val.get('sale_id'):
                 val['partner_type'] = 'customer'
                 sale_id = self.env['sale.order'].search([('id','=',val['sale_id'])])
                 total_sale = sale_id.amount_total
