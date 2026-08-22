@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="ach_payment_settings_view_form" model="ir.ui.view">
+        <field name="name">Advance Payments in Config Settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]//div[@data-key='sale_management']" position="inside">
+                <div>
+                    <h2>Sales Payments</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div id="sale_order_states" class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="status_for_payment" string="Sales States"/>
+                                <div class="text-muted">
+                                    Establish in which sales states advance payments can be adders
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="status_for_payment" class="o_light_label" widget="radio"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
