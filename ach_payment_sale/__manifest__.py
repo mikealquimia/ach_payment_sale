@@ -14,7 +14,7 @@
     'license': 'LGPL-3',
     'category': 'Sales',
     'version': '19.0.1.0.0',
-    'price': 10.00,
+    'price': 4.00,
     'currency': 'USD',
     'depends': ['base',
                 'account',
